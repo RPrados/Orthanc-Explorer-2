@@ -1,0 +1,33 @@
+{
+  "OrthancExplorer2": {
+    "Enable": true,
+    "IsDefaultOrthancUI": true,
+    "UiOptions": {
+      "DicomModalitiesGroups": [
+        {
+          "Name": "Ultrasound · Service A",
+          "Modalities": [ "us-a-1", "us-a-2" ],
+          "Collapsed": true,
+          "Icon": "fa-stethoscope"
+        },
+        {
+          "Name": "Ultrasound · Service B",
+          "Modalities": [ "us-b-1", "us-b-2" ],
+          "Collapsed": true,
+          "Icon": "fa-stethoscope"
+        }
+      ],
+      "DicomModalitiesUnclassifiedGroup": {
+        "Name": "Other remote modalities",
+        "Collapsed": true,
+        "Icon": "fa-server"
+      },
+      "DicomModalitiesDisplayNames": {
+        "us-a-1": "Ultrasound room A1",
+        "us-a-2": "Ultrasound room A2",
+        "us-b-1": "Ultrasound room B1",
+        "us-b-2": "Ultrasound room B2"
+      }
+    }
+  }
+}
