@@ -14,7 +14,7 @@ See [`examples/orthanc-explorer-2.json`](examples/orthanc-explorer-2.json) for a
 
 If `DicomModalitiesGroups` is absent or empty, the original flat OE2 list is retained.
 
-Duplicate modality keys are displayed only in the first configured group. Unknown keys are ignored. Group state is defined by `Collapsed` and is deliberately not persisted in the browser.
+Duplicate modality keys are displayed only in the first configured group. Unknown keys are ignored. Groups are collapsed by default; set `Collapsed` to `false` to start one expanded. Group state is deliberately not persisted in the browser.
 
 ## Behavior
 
@@ -34,7 +34,7 @@ Build environment:
 - Orthanc Server tested locally: `1.12.0.11` on Windows x64.
 - Installed Orthanc Explorer 2 reported by its configuration API: `1.12.1`.
 - Custom build configuration: `PLUGIN_VERSION=1.12.1`, static Release x64, local front-end assets.
-- SHA-256: `559B280D8117CB9E7BB733FAC97BCA107465E26545B90D80F3ACE6D6D527395B`.
+- SHA-256: `CF18177F0118EDCF9C6499ECB83C3DE9EFDB87D89CD47D67C030F0F2C989A388`.
 
 The source tree was taken from the upstream `orthanc-server/orthanc-explorer-2` master snapshot and modified locally on 2026-09-30. It should be rebased onto the precise upstream branch or release requested by Orthanc maintainers before being considered for merge.
 

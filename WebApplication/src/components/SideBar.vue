@@ -17,6 +17,7 @@ export default {
             // selectedModality: null,
             modalitiesEchoStatus: {},
             modalitiesEchoError: {},
+            modalitiesEchoRequestId: {},
             dicomModalitiesGroupsCollapsed: {},
             modalitySearchTerm: '',
             labelsStudyCount: {},
@@ -86,7 +87,9 @@ export default {
                     id: `dicom-modalities-group-${index}`,
                     name: name,
                     modalities: modalities,
-                    collapsed: group?.Collapsed === true,
+                    // Grouped lists are collapsed by default.  Set Collapsed to
+                    // false explicitly when a group should be initially open.
+                    collapsed: group?.Collapsed !== false,
                     icon: typeof group?.Icon === 'string' ? group.Icon : 'fa-folder'
                 };
             }).filter((group) => group.modalities.length > 0);
@@ -105,7 +108,7 @@ export default {
                 id: 'dicom-modalities-unclassified',
                 name: typeof configuration?.Name === 'string' && configuration.Name.trim() !== '' ?
                     configuration.Name : 'Other remote modalities',
-                collapsed: configuration?.Collapsed === true,
+                collapsed: configuration?.Collapsed !== false,
                 modalities: this.unclassifiedDicomModalities,
                 icon: typeof configuration?.Icon === 'string' ? configuration.Icon : 'fa-folder-open'
             };
@@ -213,14 +216,27 @@ export default {
             }
         },
         checkModalitiesEcho(modalities) {
+            if (!Array.isArray(modalities)) {
+                return;
+            }
+
             for (const modality of modalities) {
+                const requestId = (this.modalitiesEchoRequestId[modality] || 0) + 1;
+                this.modalitiesEchoRequestId[modality] = requestId;
                 this.modalitiesEchoStatus[modality] = null;
                 delete this.modalitiesEchoError[modality];
                 api.remoteModalityEcho(modality).then(() => {
-                    this.modalitiesEchoStatus[modality] = true;
+                    if (this.modalitiesEchoRequestId[modality] === requestId) {
+                        this.modalitiesEchoStatus[modality] = true;
+                    }
                 }).catch((error) => {
-                    this.modalitiesEchoStatus[modality] = false;
-                    this.modalitiesEchoError[modality] = error?.response?.data?.Message || error?.message || 'connection failed';
+                    if (this.modalitiesEchoRequestId[modality] === requestId) {
+                        const response = error?.response?.data;
+                        this.modalitiesEchoStatus[modality] = false;
+                        this.modalitiesEchoError[modality] =
+                            (typeof response === 'string' ? response : response?.Details || response?.Message) ||
+                            error?.message || 'connection failed';
+                    }
                 });
             }
         },

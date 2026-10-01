@@ -43,7 +43,7 @@
             //     {
             //         "Name": "Ultrasound - Service A",
             //         "Modalities": [ "us-a-1", "us-a-2" ], // DicomModalities entry names, not AETs
-            //         "Collapsed": true,
+            //         "Collapsed": true,                 // Defaults to true; set false to start expanded
             //         "Icon": "fa-stethoscope" // optional Font Awesome icon class
             //     },
             //     {
